@@ -1,0 +1,46 @@
+
+# to run two services on two respective containers
+# 1. web: flask
+# 2. db: postgres
+
+
+services:
+  db:
+    image: postgres:15-alpine
+    environment:
+      POSTGRES_USER: myuser
+      POSTGRES_PASSWORD: mypassword
+      POSTGRES_DB: mydatabase
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgres/data
+      # db_data -> Docker named volume || /var/lib/postgres/data -> directory inside the containe
+      # PostgreSQL stores its actual database files in /var/lib/postgres/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U myuser -d mydatabase"] # pg_ready is built-in command in postgres -if it returns service_healthy --- start container 
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  web:
+    build: .
+    # restart: on-failure  # Docker will reboot the app if it crashes
+    ports:
+      - "5000:5000"
+    environment:
+      DB_USER: myuser
+      DB_PASSWORD: mypassword
+      DB_NAME: mydatabase
+      DB_HOST: db
+    depends_on:
+      db:
+        condition: service_healthy # This tells Web to wait until the healthcheck passes 
+    # depends_on tells Docker to start the DB container first
+  
+volumes:
+  db_data:
+
+    
+      

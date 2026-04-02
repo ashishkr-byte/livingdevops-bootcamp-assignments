@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  busybox:
+    image: busybox
+    container_name: busybox_container
+    command: sleep 3600
+    # networks:
+    #   - my_custom_network
+
+  alpine:
+    image: alpine
+    container_name: alpine_container
+    command: sleep 3600
+    # networks:
+    #   - my_custom_network
+
+# networks:
+#   my_custom_network:
+#     driver: bridge

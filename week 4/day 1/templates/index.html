@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>{{ profile.name }} | {{ profile.title }}</title>
+  <style>
+    :root {
+      --bg: #f6f8fb;
+      --card: #ffffff;
+      --text: #1f2937;
+      --muted: #6b7280;
+      --brand: #0f766e;
+      --border: #e5e7eb;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      color: var(--text);
+      background: linear-gradient(135deg, #eef2ff, var(--bg));
+      line-height: 1.5;
+    }
+
+    .container {
+      max-width: 920px;
+      margin: 40px auto;
+      padding: 0 16px;
+    }
+
+    .card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 24px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
+      margin-bottom: 18px;
+    }
+
+    h1, h2 { margin: 0 0 12px; }
+    h1 { font-size: 1.9rem; }
+    h2 { font-size: 1.2rem; color: var(--brand); }
+
+    .title {
+      color: var(--muted);
+      margin-bottom: 10px;
+      font-weight: 600;
+    }
+
+    .summary { margin-bottom: 0; }
+
+    .chips {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      padding: 0;
+      margin: 0;
+      list-style: none;
+    }
+
+    .chips li {
+      background: #ecfeff;
+      color: #155e75;
+      padding: 6px 10px;
+      border: 1px solid #a5f3fc;
+      border-radius: 999px;
+      font-size: 0.9rem;
+    }
+
+    .projects {
+      padding-left: 18px;
+      margin: 0;
+    }
+
+    .projects li { margin-bottom: 12px; }
+    .projects strong { display: block; }
+
+    footer {
+      text-align: center;
+      color: var(--muted);
+      font-size: 0.9rem;
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+  <main class="container">
+    <section class="card">
+      <h1>{{ profile.name }}</h1>
+      <p class="title">{{ profile.title }}</p>
+      <p class="summary">{{ profile.summary }}</p>
+    </section>
+
+    <section class="card">
+      <h2>Core Skills</h2>
+      <ul class="chips">
+        {% for skill in profile.skills %}
+          <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <section class="card">
+      <h2>Highlighted Projects</h2>
+      <ul class="projects">
+        {% for project in profile.projects %}
+          <li>
+            <strong>{{ project.name }}</strong>
+            <span>{{ project.description }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+    </section>
+
+    <footer>
+      Built with Flask + Gunicorn for a Cloud/DevOps portfolio.
+    </footer>
+  </main>
+</body>
+</html>

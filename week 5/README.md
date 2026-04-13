@@ -9,6 +9,10 @@ This project established the foundation for the automated version, including:
 * **RDS:** Provisioned RDS primary/standby instances in private subnets with custom Parameter Groups.
 * **Routing:** Manually mapped Route Tables to manage traffic flow between the Public ALBs and Private Application/Database tiers.
 
+
+## 🏗 Documentation
+Refer to the "Deploying 2 tier app on ECS.docx" file in day2_day3 folder to see the screenshots fo the various resources created and walkthrough steps.
+
 ## 💡 Why This Was Crucial
 By manually configuring this exact architecture, I learned:
 1. **The "Why" behind the "How":** Understanding why the ECS tasks needed to be in private subnets while the ALB required public placement.

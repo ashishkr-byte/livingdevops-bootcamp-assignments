@@ -20,6 +20,6 @@ By manually configuring this exact architecture, I learned:
 3. **Operational Discipline:** Manually documenting every manual click allowed me to identify exactly where automation was needed, directly informing the development of my terrform project implementation.
 
 ---
-<!--
+
 ## 📂 Architecture Diagram
-![Manual Deployment Architecture](path/to/your/image_bd1123.jpg) -->
+[![Architecture Diagram](images/diagram.png)](images/diagram.png)

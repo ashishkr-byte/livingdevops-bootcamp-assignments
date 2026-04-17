@@ -21,6 +21,7 @@ jobs:
 
   
   second-job:
+    needs: first-job
     runs-on: windows-latest
     steps:
       - name: Run Windows command

@@ -11,10 +11,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: single shell command
-        run: echo "Hello World"
+        run: echo "Hello World from Ashish"
 
       - name: multiple shell commands
         run: |
           echo "Hello World"
-          echo "Welcome to GitHub Actions"
+          echo "Welcome to GitHub Actions - your CICD partner"
           echo "This is a multi-line command"

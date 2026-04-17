@@ -18,3 +18,15 @@ jobs:
           echo "Hello World"
           echo "Welcome to GitHub Actions - your CICD partner"
           echo "This is a multi-line command"
+
+  
+  second-job:
+    runs-on: windows-latest
+    steps:
+      - name: Run Windows command
+        run: echo "Hello from Windows by Microsoft"
+
+      - name: multiple windows commands
+        run: |
+          echo "Hello World"
+          echo "Welcome to Github Actions on Windows machine"

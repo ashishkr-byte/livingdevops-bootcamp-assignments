@@ -1,0 +1,38 @@
+
+name: second workflow
+
+on:
+  # tigger workflow on push to a branch
+  push:
+    branches:
+      - main
+  
+  env:
+    GREETING_WF: "Hello from Ashish" # defining a workflow level environment variable
+
+
+jobs:
+  job1:
+    
+    # defining a job level environment variable
+    env:
+      GREETING_JOB: "Hello from Ashish's job 1"
+
+    runs-on: ubuntu-latest
+    steps:
+      - name: Running a one line script
+        run: |
+          echo "env variable from workflow: ${{ env.GREETING_WF }}"
+          echo "env variable from job: ${{ env.GREETING_JOB }}"
+          echo "env variable from step: ${{ env.GREETING_STEP }}"
+
+      - name: Running a multi line command script
+        env:
+          GREETING_STEP: "Hello from Ashish's second step"
+
+        run: |
+          echo "This is a multi commands script."
+          echo "Each command is executed in sequence."
+          echo "env from workflow: ${{ env.GREETING_WF }}"
+          echo "env from job: ${{ env.GREETING_JOB }}"
+          echo "env from step: ${{ env.GREETING_STEP }}"

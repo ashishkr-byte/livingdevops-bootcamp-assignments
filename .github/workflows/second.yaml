@@ -7,8 +7,8 @@ on:
     branches:
       - main
   
-  env:
-    GREETING_WF: "Hello from Ashish" # defining a workflow level environment variable
+env:
+  GREETING_WF: "Hello from Ashish" # defining a workflow level environment variable
 
 
 jobs:

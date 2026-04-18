@@ -1,0 +1,2 @@
+
+[![second workflow](https://github.com/ashishkr-byte/livingdevops-bootcamp-assignments/actions/workflows/second.yaml/badge.svg)](https://github.com/ashishkr-byte/livingdevops-bootcamp-assignments/actions/workflows/second.yaml)

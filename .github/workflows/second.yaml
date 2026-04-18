@@ -36,3 +36,15 @@ jobs:
           echo "env from workflow: ${{ env.GREETING_WF }}"
           echo "env from job: ${{ env.GREETING_JOB }}"
           echo "env from step: ${{ env.GREETING_STEP }}"
+
+
+  job2:
+    needs: job1
+    runs-on: windows-latest
+
+    step:
+      - name: Run a multi line script
+        run: |
+          echo "env from workflow: ${{ env.GREETING_WF }}"
+          echo "env from job: ${{ env.GREETING_JOB }}"
+          echo "env from step: ${{ env.GREETING_STEP }}"

@@ -5,7 +5,7 @@ on:
   # tigger workflow on push to a branch
   push:
     branches:
-      - main
+      - task_id
   
 env:
   GREETING_WF: "Hello from Ashish" # defining a workflow level environment variable

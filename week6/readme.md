@@ -48,9 +48,11 @@ This project follows these essential CLI practices:
 
 ---
 
+<!--
 ## 📂 Project Structure
 ```text
 .
 ├── main.tf           # Main infrastructure resources
 ├── variables.tf      # Reusable variables
 ├── providers.tf      # AWS provider configuration
+-->

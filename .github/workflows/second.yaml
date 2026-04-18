@@ -48,3 +48,4 @@ jobs:
           echo "env from workflow: ${{ env.GREETING_WF }}"
           echo "env from job: ${{ env.GREETING_JOB }}"
           echo "env from step: ${{ env.GREETING_STEP }}"
+          exit 1

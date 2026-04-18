@@ -1,5 +1,5 @@
 
-name: second workflow
+name: second-workflow
 
 on:
   # tigger workflow on push to a branch
@@ -33,6 +33,18 @@ jobs:
         run: |
           echo "This is a multi commands script."
           echo "Each command is executed in sequence."
+          echo "env from workflow: ${{ env.GREETING_WF }}"
+          echo "env from job: ${{ env.GREETING_JOB }}"
+          echo "env from step: ${{ env.GREETING_STEP }}"
+
+
+  job2:
+    needs: job1
+    runs-on: windows-latest
+
+    steps:
+      - name: Run a multi line script
+        run: |
           echo "env from workflow: ${{ env.GREETING_WF }}"
           echo "env from job: ${{ env.GREETING_JOB }}"
           echo "env from step: ${{ env.GREETING_STEP }}"

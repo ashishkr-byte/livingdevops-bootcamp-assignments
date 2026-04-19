@@ -15,7 +15,7 @@ env:
 
 jobs:
   
-  terraform job: # this is the job identifier
+  terraform-job: # this is the job identifier
 
     runs-on: ubuntu-latest
     steps:

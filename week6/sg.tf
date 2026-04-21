@@ -9,41 +9,41 @@ resource "aws_security_group" "albsg" {
 
   ingress = [
     {
-      description = "Allow HTTP"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      description      = "Allow HTTP"
+      from_port        = 80
+      to_port          = 80
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = []
-      prefix_list_ids   = []
-      security_groups   = []
-      self              = false
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
     },
     {
-      description = "Allow HTTPS"
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
+      description      = "Allow HTTPS"
+      from_port        = 443
+      to_port          = 443
+      protocol         = "tcp"
+      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = []
-      prefix_list_ids   = []
-      security_groups   = []
-      self              = false
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
     }
   ]
 
   # Inline egress rules (multiple in one block)
   egress = [
     {
-      description = "Allow all outbound traffic"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      description      = "Allow all outbound traffic"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids   = []
-      security_groups   = []
-      self              = false
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
     }
   ]
 
@@ -64,29 +64,29 @@ resource "aws_security_group" "ecssg" {
 
   ingress = [
     {
-      description = "Allow traffic from ALB"
-      from_port   = var.container_port
-      to_port     = var.container_port
-      protocol    = "tcp"
-      security_groups = [aws_security_group.albsg.id]
-      cidr_blocks = []
+      description      = "Allow traffic from ALB"
+      from_port        = var.container_port
+      to_port          = var.container_port
+      protocol         = "tcp"
+      security_groups  = [aws_security_group.albsg.id]
+      cidr_blocks      = []
       ipv6_cidr_blocks = []
-      prefix_list_ids   = []
-      self              = false
+      prefix_list_ids  = []
+      self             = false
     }
   ]
 
   egress = [
     {
-      description = "Allow all outbound traffic"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      description      = "Allow all outbound traffic"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids   = []
-      security_groups   = []
-      self              = false
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
     }
   ]
 
@@ -105,29 +105,29 @@ resource "aws_security_group" "rdssg" {
 
   ingress = [
     {
-      cidr_blocks = []
-      description = "Allow traffic from ECS tasks"
-      from_port   = 5432
-      to_port     = 5432
-      protocol    = "tcp"
-      security_groups = [aws_security_group.ecssg.id]
+      cidr_blocks      = []
+      description      = "Allow traffic from ECS tasks"
+      from_port        = 5432
+      to_port          = 5432
+      protocol         = "tcp"
+      security_groups  = [aws_security_group.ecssg.id]
       ipv6_cidr_blocks = []
-      prefix_list_ids   = []
-      self              = false
+      prefix_list_ids  = []
+      self             = false
     }
   ]
 
   egress = [
     {
-      description = "Allow all outbound traffic"
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
+      description      = "Allow all outbound traffic"
+      from_port        = 0
+      to_port          = 0
+      protocol         = "-1"
+      cidr_blocks      = ["0.0.0.0/0"]
       ipv6_cidr_blocks = ["::/0"]
-      prefix_list_ids   = []
-      security_groups   = []
-      self              = false
+      prefix_list_ids  = []
+      security_groups  = []
+      self             = false
     }
   ]
 }

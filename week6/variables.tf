@@ -32,31 +32,31 @@ variable "secondary_az" {
 
 
 variable "app_name" {
-  type = string
+  type        = string
   description = ""
-  default = "student-portal"
+  default     = "student-portal"
 }
 
 
 variable "prefix" {
-  default =  "jan26-bootcamp"
+  default = "jan26-bootcamp"
 }
 
 
 variable "image" {
-  type = string
-  default = "201760452324.dkr.ecr.ap-south-1.amazonaws.com/jan26-bootcamp-student-portal:1.0" 
+  type    = string
+  default = "201760452324.dkr.ecr.ap-south-1.amazonaws.com/jan26-bootcamp-student-portal:1.0"
   # the arn of the ecr repo which has image.
 
   # <act_id>.dkr.ecr.<aws_region>.amazonaws.com/<repo_name>[:tag]
-  
+
 }
 
 
 variable "container_port" {
-  type = number
+  type    = number
   default = 5000
-  
+
 }
 
 
@@ -67,12 +67,12 @@ variable "container_port" {
 
 
 variable "domain_name" {
-  type = string
+  type    = string
   default = "ashishkrtech.xyz"
 }
 
 
 variable "alb_zone_id" {
-  type = string
+  type    = string
   default = "ZP97RAFLXTNZK"
 }

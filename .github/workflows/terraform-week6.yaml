@@ -11,7 +11,7 @@ on:
 env:
   AWS_REGION: ap-south-1
   Terraform_Version: 1.14.1
-  infra_path: week6/
+  infra_path: week6/infra
 
 jobs:
   

@@ -107,7 +107,7 @@ resource "aws_ecs_task_definition" "taskdefinition" {
 # secret manager to manage env variables for credentials
 
 resource "aws_secretsmanager_secret" "db_secret" {
-  name = "db/${var.app_name}-secrets"
+  name = "db/${var.app_name}-secret"
 
 }
 

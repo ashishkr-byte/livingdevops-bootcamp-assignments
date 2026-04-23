@@ -50,7 +50,7 @@ resource "aws_route53_record" "app_record" {
 
 # 3. Certificate Validation Resource
 resource "aws_acm_certificate_validation" "cert_validation" {
-  certificate_arn         = aws_acm_certificate.cert.arn
+  certificate_arn = aws_acm_certificate.cert.arn
   # This links to the CNAME records created in the first block
   validation_record_fqdns = [for record in aws_route53_record.cert_validation : record.fqdn]
 }

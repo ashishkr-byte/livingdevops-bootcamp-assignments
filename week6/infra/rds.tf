@@ -23,19 +23,19 @@ resource "random_password" "passwordb" {
 
 
 resource "aws_db_instance" "default" {
-  identifier           = "${var.prefix}-${var.app_name}-db"
-  allocated_storage    = 20
-  db_name              = "studentportal"
-  engine               = "postgres"
-  engine_version       = "16.12"
-  instance_class       = "db.t3.micro"
-  username             = "postgres"
-  password             = random_password.passwordb.result
-  db_subnet_group_name = aws_db_subnet_group.default.name
-  parameter_group_name = "default.postgres16"
-  skip_final_snapshot  = true
-  publicly_accessible  = false
-  vpc_security_group_ids = [ aws_security_group.rdssg.id ]
+  identifier             = "${var.prefix}-${var.app_name}-db"
+  allocated_storage      = 20
+  db_name                = "studentportal"
+  engine                 = "postgres"
+  engine_version         = "16.12"
+  instance_class         = "db.t3.micro"
+  username               = "postgres"
+  password               = random_password.passwordb.result
+  db_subnet_group_name   = aws_db_subnet_group.default.name
+  parameter_group_name   = "default.postgres16"
+  skip_final_snapshot    = true
+  publicly_accessible    = false
+  vpc_security_group_ids = [aws_security_group.rdssg.id]
 }
 
 

@@ -47,15 +47,15 @@ resource "aws_ecs_cluster" "app_cluster" {
 # Task definition
 
 resource "aws_ecs_task_definition" "taskdefinition" {
-  family = "${var.app_name}"
-  
+  family = var.app_name
+
   execution_role_arn = "arn:aws:iam::201760452324:role/ecsTaskExecutionRole"
   # this is a required property
 
-  
+
 
   requires_compatibilities = ["FARGATE"]
-  cpu                      = "1024" 
+  cpu                      = "1024"
   memory                   = "2048"
   network_mode             = "awsvpc"
   # by default the network mode is bridge, but for fargate we have to use awsvpc, and for ec2 launch type we can use both awsvpc and bridge.
@@ -94,11 +94,11 @@ resource "aws_ecs_task_definition" "taskdefinition" {
         }
       }
 
-      
+
     }
   ])
 
-  
+
 
 }
 
@@ -115,13 +115,13 @@ resource "aws_secretsmanager_secret_version" "db_secret_value" {
   secret_id = aws_secretsmanager_secret.db_secret.id
 
   secret_string = jsonencode({
-    
+
     DB_LINK = "postgresql://${aws_db_instance.default.username}:${random_password.passwordb.result}@${aws_db_instance.default.endpoint}/${aws_db_instance.default.db_name}"
-    
-  }
+
+    }
   )
   # DB_LINK = "postgresql://{username}:{password}@{host}:5432/{database_name}"
-    
+
   # this link contain credentials of db -- so we better fetch value from db_instance resource. look at the attribute references in tf documentation to see what values db_instance returns and then use those values
 
 }
@@ -136,7 +136,7 @@ resource "aws_ecs_service" "service" {
   # iam_role        = aws_iam_role.foo.arn
   # If using awsvpc network mode, do not specify this role, so I have commented it out.
 
-  launch_type     = "FARGATE"
+  launch_type = "FARGATE"
 
 
   deployment_circuit_breaker {
@@ -145,8 +145,8 @@ resource "aws_ecs_service" "service" {
   }
 
   network_configuration {
-    subnets = [aws_subnet.private1.id, aws_subnet.private2.id]
-    security_groups = [aws_security_group.ecssg.id]
+    subnets          = [aws_subnet.private1.id, aws_subnet.private2.id]
+    security_groups  = [aws_security_group.ecssg.id]
     assign_public_ip = false
   }
 

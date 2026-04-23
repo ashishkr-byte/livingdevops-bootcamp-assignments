@@ -1,0 +1,49 @@
+
+# check if the code is proper and is successfully running, this will be known in the pull request to main branch, if the check are passed, merged to main otherwise not.
+
+name: terraform pr checks
+
+on:
+  # pull_request:
+  #   branches:
+  #     - main
+  workflow_dispatch:
+
+
+env:
+  AWS_REGION: ap-south-1
+  Terraform_Version: 1.14.1
+  infra_path: week6/
+
+jobs:
+  
+  terraform-plan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: code checkout
+        uses: actions/checkout@v5
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+      
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v4
+        with:
+          terraform_version: ${{ env.Terraform_Version }}
+      
+      - name: Initialize Terraform
+        working-directory: ${{ env.infra_path }}
+        run: terraform init
+
+      - name: Checking Formatting
+        working-directory: ${{ env.infra_path }}
+        run: terraform fmt --check
+
+      - name: Planning
+        working-directory: ${{ env.infra_path }}
+        run: terraform plan

@@ -4,9 +4,9 @@ name: week6 ecs terraform apply
 on:
   workflow_dispatch:
 
-  push:
-    branches:
-      - main
+  # push:
+  #   branches:
+  #     - main
 
 env:
   AWS_REGION: ap-south-1

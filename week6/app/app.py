@@ -7,9 +7,7 @@ import os
 
 app = Flask(__name__)
 
-app.config['SQLALCHEMY_DATABASE_URI'] = f"postgresql://{os.getenv('DB_USER', 'myuser')}:{os.getenv('DB_PASSWORD', 'mypassword')}@{os.getenv('DB_HOST', 'db')}:{os.getenv('DB_PORT', '5432')}/{os.getenv('DB_NAME', 'mydatabase')}"
-# we are using os.getenv(..., default), if env variable not provided -- default value is used
-# we can also use without default values since we are providing the env variables via docker-compose file.
+app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv("DB_LINK")
 
 
 # app.config['SQLALCHEMY_DATABASE_URI'] = "postgresql://myuser:mypassword@localhost:5432/mydatabase"

@@ -11,6 +11,11 @@ env:
   ECR_REPOSITORY: jan26-bootcamp-student-portal
   IMAGE_TAG: ${{ github.sha }}
   app_path: week6/app/
+  container_name: student-portal
+  service: jan26-bootcamp-student-portal-service
+  cluster: jan26-bootcamp-student-portal
+  task-def-family: student-portal
+
 
 
 
@@ -34,7 +39,8 @@ jobs:
         id: login-ecr
         uses: aws-actions/amazon-ecr-login@v2
       
-      - name: build, tag and push image to ECR\
+      - name: build, tag and push image to ECR
+        id: build-image
         working-directory: ${{ env.app_path }}
         run: |
           # Build a docker image
@@ -42,6 +48,34 @@ jobs:
       
           # Push image to ECR
           docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
+          echo "image=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+        
+    steps:
+      - name: download task definition
+        run: |
+          aws ecs describe-task-definition --task-definition ${{ env.task-def-family }} --query taskDefinition > task-definition.json
+
+    steps:
+      - name: Fill in the new image ID in the Amazon ECS task definition
+        id: task-def
+        uses: aws-actions/amazon-ecs-render-task-definition@v1
+        with:
+          task-definition: task-definition.json
+          container-name: ${{ env.container_name }}
+          image: ${{ build-and-push.steps.build-image.outputs.image }}
+
+      
+      - name: Deploy Amazon ECS task definition
+        uses: aws-actions/amazon-ecs-deploy-task-definition@v2
+        with:
+          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          service: ${{ env.service }}
+          cluster: ${{ env.cluster }}
+          wait-for-service-stability: true
+
+
+
 
 
 

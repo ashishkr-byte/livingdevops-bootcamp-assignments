@@ -4,6 +4,7 @@
 resource "aws_ecr_repository" "app_image" {
   name                 = "${var.prefix}-${var.app_name}"
   image_tag_mutability = "MUTABLE"
+  force_delete = true
 
   # this could slow down the push and add costs, you want to scan image before the push, but we will learn later how to scan docker images, so below part I will not use
 

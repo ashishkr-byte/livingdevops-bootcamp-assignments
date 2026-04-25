@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MemberHub | Community Registration</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <div class="page-shell">
+        <header class="topbar">
+            <a class="brand" href="#home">
+                <span class="brand-mark">M</span>
+                <span>MemberHub</span>
+            </a>
+            <nav class="nav">
+                {% for resource in resources %}
+                <a href="{{ resource.href }}">{{ resource.label }}</a>
+                {% endfor %}
+            </nav>
+        </header>
+
+        <main id="home">
+            <section class="hero">
+                <div class="hero-copy">
+                    <p class="eyebrow">Community onboarding made simple</p>
+                    <h1>Turn a basic registration form into a polished member welcome page.</h1>
+                    <p class="hero-text">
+                        This app now presents registration, member visibility, and quick navigation in one clean
+                        experience. It is still lightweight, but it no longer looks like a placeholder.
+                    </p>
+                    <div class="hero-actions">
+                        <a class="button button-primary" href="#register">Register now</a>
+                        <a class="button button-secondary" href="#members">View members</a>
+                    </div>
+                    <div class="hero-links">
+                        <a href="#community">Why join</a>
+                        <a href="#members">Recent registrations</a>
+                        <a href="https://www.sqlalchemy.org/" target="_blank" rel="noreferrer">Database layer</a>
+                    </div>
+                </div>
+                <aside class="hero-panel">
+                    <div class="stat-card">
+                        <span class="stat-label">Total members</span>
+                        <strong>{{ stats.total_users }}</strong>
+                    </div>
+                    <div class="stat-card">
+                        <span class="stat-label">Latest registration</span>
+                        <strong>{{ stats.latest_user }}</strong>
+                    </div>
+                    <div class="quote-card">
+                        <p>"A small app feels more credible when the interface explains its purpose clearly."</p>
+                    </div>
+                </aside>
+            </section>
+
+            <section class="feature-grid" id="community">
+                {% for item in highlights %}
+                <article class="feature-card">
+                    <span class="feature-index">0{{ loop.index }}</span>
+                    <h2>{{ item.title }}</h2>
+                    <p>{{ item.description }}</p>
+                </article>
+                {% endfor %}
+            </section>
+
+            <section class="content-grid">
+                <section class="panel form-panel" id="register">
+                    <div class="panel-heading">
+                        <p class="eyebrow">Join the network</p>
+                        <h2>Register a new member</h2>
+                        <p>Capture a name and email, then show the result immediately in the members table.</p>
+                    </div>
+
+                    <form method="POST" class="register-form">
+                        <label>
+                            <span>Name</span>
+                            <input type="text" name="name" placeholder="Ashish Kumar" required>
+                        </label>
+                        <label>
+                            <span>Email</span>
+                            <input type="email" name="email" placeholder="ashish@example.com" required>
+                        </label>
+                        <button type="submit" class="button button-primary">Add member</button>
+                    </form>
+                </section>
+
+                <section class="panel info-panel">
+                    <div class="panel-heading">
+                        <p class="eyebrow">Useful links</p>
+                        <h2>Build on top of this app</h2>
+                    </div>
+                    <div class="link-list">
+                        <a href="https://flask.palletsprojects.com/" target="_blank" rel="noreferrer">Flask documentation</a>
+                        <a href="https://flask-sqlalchemy.palletsprojects.com/" target="_blank" rel="noreferrer">Flask-SQLAlchemy guide</a>
+                        <a href="https://gunicorn.org/" target="_blank" rel="noreferrer">Gunicorn deployment notes</a>
+                    </div>
+                    <p class="info-copy">
+                        The layout is now structured so you can keep extending it with authentication, member roles,
+                        announcements, or a dashboard without reworking the whole front end.
+                    </p>
+                </section>
+            </section>
+
+            <section class="panel table-panel" id="members">
+                <div class="panel-heading table-heading">
+                    <div>
+                        <p class="eyebrow">Directory</p>
+                        <h2>Registered members</h2>
+                    </div>
+                    <span class="pill">{{ users|length }} total</span>
+                </div>
+
+                {% if users %}
+                <div class="table-wrap">
+                    <table>
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Name</th>
+                                <th>Email</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in users %}
+                            <tr>
+                                <td>{{ user.id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.email }}</td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% else %}
+                <div class="empty-state">
+                    <h3>No members yet</h3>
+                    <p>Add the first registration to populate the directory and verify the database connection.</p>
+                </div>
+                {% endif %}
+            </section>
+        </main>
+    </div>
+</body>
+</html>

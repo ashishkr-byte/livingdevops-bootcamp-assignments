@@ -71,7 +71,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: task-definition
-          path: ${{ steps.task-def.outputs.task-definition }}
+          path: task-definition.json    # ${{ steps.task-def.outputs.task-definition }}
 
 
   deploy:

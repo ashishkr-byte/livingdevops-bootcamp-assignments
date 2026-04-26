@@ -1,3 +1,4 @@
+
 name: ECS build and push to ECR
 
 on:
@@ -42,19 +43,22 @@ jobs:
         id: build-image
         working-directory: ${{ env.app_path }}
         run: |
+
+          IMAGE_URI=${{ steps.login-ecr.outputs.registry }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+
           # Build a docker image
-          docker build -t ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }} .
+          docker build -t $IMAGE_URI .
       
           # Push image to ECR
-          docker push ${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}
+          docker push $IMAGE_URI
 
-          echo "image=${{ env.ECR_REGISTRY }}/${{ env.ECR_REPOSITORY }}:${{ env.IMAGE_TAG }}" >> $GITHUB_OUTPUT
+          echo "image=$IMAGE_URI" >> $GITHUB_OUTPUT
         
-      - name: download task definition
+      - name: download current task definition
         run: |
           aws ecs describe-task-definition --task-definition ${{ env.task-def-family }} --query taskDefinition > task-definition.json
 
-      - name: Fill in the new image ID in the Amazon ECS task definition
+      - name: Fill in the new image ID in the task definition
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
@@ -62,12 +66,39 @@ jobs:
           container-name: ${{ env.container_name }}
           image: ${{ steps.build-image.outputs.image }}
           
-          
-      - name: Deploy Amazon ECS task definition
+
+      # IMPORTANT: You must upload the rendered file as an artifact 
+      # because files do not persist between jobs.
+
+      - name: Upload rendered task definition
+        uses: actions/upload-artifact@v4
+        with:
+          name: task-definition
+          path: ${{ steps.task-def.outputs.task-definition }}
+
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: build-and-push
+    steps:
+      - name: configure aws credentials
+        uses: aws-actions/configure-aws-credentials@v5
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Download task definition artifact
+        uses: actions/download-artifact@v4
+        with:
+          name: task-definition
+
+
+      - name: Deploy to Amazon ECS
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+        # Use the file downloaded from the artifact
+          task-definition: task-definition.json
           service: ${{ env.service }}
           cluster: ${{ env.cluster }}
           wait-for-service-stability: true
-

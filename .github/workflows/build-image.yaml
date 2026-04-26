@@ -92,6 +92,9 @@ jobs:
         uses: actions/download-artifact@v4
         with:
           name: task-definition
+      
+      - name: Rename task definition
+        run: mv *.json task-definition.json
 
 
       - name: Deploy to Amazon ECS

@@ -95,7 +95,7 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
         # Use the file downloaded from the artifact
-          task-definition: ${{ steps.task-def.outputs.task-definition }}
+          task-definition: task-definition.json # ${{ steps.task-def.outputs.task-definition }}
           service: ${{ env.service }}
           cluster: ${{ env.cluster }}
           wait-for-service-stability: true

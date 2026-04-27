@@ -1,4 +1,22 @@
 
+# running build and deploy in two separate jobs.
+
+# Notes on Job 2: deploy
+# 1. Upload artifact step:
+    # takes a file which is from the output of previous step
+    #given by the path - and Uploaded it to GitHub’s storage -- called artifact
+    # name: task-definition → the above artifact is labelled so(label in storage)
+    # therefore, path: ... → actual file name on disk
+    
+# Notes on Job 2: deploy
+  # 1. Download artifact -- will download task-definition.json
+  # It uses the label (name: task-definition) to find and download the files stored under that label.
+
+# 2. rename step (mv .....)
+#  because downloaded artifact might have a different name or might be in a different folder.
+
+
+
 name: ECS build and push to ECR
 
 on:
@@ -7,7 +25,6 @@ on:
 
 env:
   AWS_REGION: ap-south-1
-  ECR_REGISTRY: 201760452324.dkr.ecr.ap-south-1.amazonaws.com
   ECR_REPOSITORY: jan26-bootcamp-student-portal
   IMAGE_TAG: ${{ github.sha }}
   app_path: week6/app/
@@ -62,7 +79,7 @@ jobs:
         id: task-def
         uses: aws-actions/amazon-ecs-render-task-definition@v1
         with:
-          task-definition: task-definition.json
+          task-definition: task-definition.json # the output from previous step
           container-name: ${{ env.container_name }}
           image: ${{ steps.build-image.outputs.image }}
           
@@ -101,7 +118,9 @@ jobs:
         uses: aws-actions/amazon-ecs-deploy-task-definition@v2
         with:
         # Use the file downloaded from the artifact
-          task-definition: task-definition.json
+          task-definition: task-definition.json # the file from the artifact
           service: ${{ env.service }}
           cluster: ${{ env.cluster }}
-          wait-for-service-stability: true
+          wait-for-service-stability: true 
+          # the action blocks and polls ECS until the new deployment is healthy. The workflow step only succeeds once ECS confirms the service is stable.
+          # if you dont want it to, you can set the value to be false.

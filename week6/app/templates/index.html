@@ -3,78 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MemberHub | Community Registration</title>
+    <title>MemberHub | Community Launchpad</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;600;700;800&family=Manrope:wght@400;500;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
 </head>
 <body>
+    <div class="ambient ambient-left"></div>
+    <div class="ambient ambient-right"></div>
+
     <div class="page-shell">
         <header class="topbar">
             <a class="brand" href="#home">
-                <span class="brand-mark">M</span>
-                <span>Member Forum</span>
+                <span class="brand-mark">MH</span>
+                <span>MemberHub</span>
             </a>
             <nav class="nav">
                 {% for resource in resources %}
                 <a href="{{ resource.href }}">{{ resource.label }}</a>
                 {% endfor %}
             </nav>
+            <a class="button button-ghost" href="#register">Start now</a>
         </header>
 
         <main id="home">
             <section class="hero">
-                <div class="hero-copy">
-                    <p class="eyebrow">Community onboarding made simple</p>
-                    <h1>Turn a basic registration form into a polished member welcome page.</h1>
+                <div class="hero-copy reveal">
+                    <p class="eyebrow">Community growth operating system</p>
+                    <h1>From simple signup to an adoption engine.</h1>
                     <p class="hero-text">
-                        This app now presents registration, member visibility, and quick navigation in one clean
-                        experience. It is still lightweight, but it no longer looks like a placeholder.
+                        Register members, surface traction signals, and activate referral loops in one stylish
+                        landing page that works across desktop and mobile.
                     </p>
                     <div class="hero-actions">
-                        <a class="button button-primary" href="#register">Register now</a>
-                        <a class="button button-secondary" href="#members">View members</a>
-                    </div>
-                    <div class="hero-links">
-                        <a href="#community">Why join</a>
-                        <a href="#members">Recent registrations</a>
-                        <a href="https://www.sqlalchemy.org/" target="_blank" rel="noreferrer">Database layer</a>
+                        <a class="button button-primary" href="#register">Add a member</a>
+                        <a class="button button-secondary" href="#idea-lab">Explore new ideas</a>
                     </div>
                 </div>
-                <aside class="hero-panel">
-                    <div class="stat-card">
-                        <span class="stat-label">Total members</span>
+
+                <aside class="hero-panel reveal">
+                    <div class="metric-card">
+                        <span>Total members</span>
                         <strong>{{ stats.total_users }}</strong>
                     </div>
-                    <div class="stat-card">
-                        <span class="stat-label">Latest registration</span>
+                    <div class="metric-card">
+                        <span>Latest signup</span>
                         <strong>{{ stats.latest_user }}</strong>
                     </div>
-                    <div class="quote-card">
-                        <p>"A small app feels more credible when the interface explains its purpose clearly."</p>
+                    <div class="metric-card">
+                        <span>Adoption score</span>
+                        <strong>{{ stats.adoption_score }}%</strong>
+                    </div>
+                    <div class="metric-card">
+                        <span>Top domain</span>
+                        <strong>{{ stats.power_domain }}</strong>
                     </div>
                 </aside>
             </section>
 
-            <section class="feature-grid" id="community">
+            <section id="pulse" class="feature-grid">
                 {% for item in highlights %}
-                <article class="feature-card">
-                    <span class="feature-index">0{{ loop.index }}</span>
+                <article class="feature-card reveal">
                     <h2>{{ item.title }}</h2>
                     <p>{{ item.description }}</p>
                 </article>
                 {% endfor %}
             </section>
 
-            <section class="content-grid">
-                <section class="panel form-panel" id="register">
-                    <div class="panel-heading">
-                        <p class="eyebrow">Join the network</p>
-                        <h2>Register a new member</h2>
-                        <p>Capture a name and email, then show the result immediately in the members table.</p>
+            <section class="panel domain-panel reveal">
+                <div class="panel-heading">
+                    <p class="eyebrow">Community pulse</p>
+                    <h2>Email domain traction map</h2>
+                </div>
+                {% if top_domains %}
+                <div class="domain-list">
+                    {% for d in top_domains %}
+                    <div class="domain-row">
+                        <div class="domain-meta">
+                            <span class="domain-name">{{ d.domain }}</span>
+                            <span>{{ d.count }} members</span>
+                        </div>
+                        <div class="domain-bar">
+                            <span style="width: {{ d.share }}%"></span>
+                        </div>
+                        <span class="domain-share">{{ d.share }}%</span>
                     </div>
+                    {% endfor %}
+                </div>
+                {% else %}
+                <p class="muted-copy">Add a few members to reveal where your community momentum is coming from.</p>
+                {% endif %}
+            </section>
 
+            <section class="content-grid">
+                <section class="panel form-panel reveal" id="register">
+                    <div class="panel-heading">
+                        <p class="eyebrow">Onboard members</p>
+                        <h2>Register new participant</h2>
+                    </div>
                     <form method="POST" class="register-form">
                         <label>
                             <span>Name</span>
@@ -88,24 +115,53 @@
                     </form>
                 </section>
 
-                <section class="panel info-panel">
+                <section class="panel toolkit-panel reveal" id="idea-lab">
                     <div class="panel-heading">
-                        <p class="eyebrow">Useful links</p>
-                        <h2>Build on top of this app</h2>
+                        <p class="eyebrow">Idea lab</p>
+                        <h2>Novel growth concepts</h2>
                     </div>
-                    <div class="link-list">
-                        <a href="https://flask.palletsprojects.com/" target="_blank" rel="noreferrer">Flask documentation</a>
-                        <a href="https://flask-sqlalchemy.palletsprojects.com/" target="_blank" rel="noreferrer">Flask-SQLAlchemy guide</a>
-                        <a href="https://gunicorn.org/" target="_blank" rel="noreferrer">Gunicorn deployment notes</a>
+                    <div class="track-list">
+                        {% for track in community_tracks %}
+                        <article class="track-card">
+                            <span class="track-badge">{{ track.badge }}</span>
+                            <h3>{{ track.title }}</h3>
+                            <p>{{ track.description }}</p>
+                        </article>
+                        {% endfor %}
                     </div>
-                    <p class="info-copy">
-                        The layout is now structured so you can keep extending it with authentication, member roles,
-                        announcements, or a dashboard without reworking the whole front end.
-                    </p>
                 </section>
             </section>
 
-            <section class="panel table-panel" id="members">
+            <section class="panel referral-panel reveal">
+                <div class="panel-heading">
+                    <p class="eyebrow">Referral loop</p>
+                    <h2>Instant invite message generator</h2>
+                    <p class="muted-copy">Pick a goal, generate a shareable invite, and copy it to your chat groups.</p>
+                </div>
+                <div class="referral-tools">
+                    <select id="inviteTheme">
+                        <option value="career prep">Career Prep Circle</option>
+                        <option value="hackathon teamups">Hackathon Teamups</option>
+                        <option value="weekly accountability">Weekly Accountability</option>
+                    </select>
+                    <button id="generateInvite" class="button button-secondary" type="button">Generate text</button>
+                </div>
+                <textarea id="inviteOutput" rows="4" readonly>Invite message will appear here.</textarea>
+            </section>
+
+            <section class="panel playbook-panel reveal">
+                <div class="panel-heading">
+                    <p class="eyebrow">Adoption playbook</p>
+                    <h2>What to run next</h2>
+                </div>
+                <ul>
+                    {% for step in launch_playbook %}
+                    <li>{{ step }}</li>
+                    {% endfor %}
+                </ul>
+            </section>
+
+            <section class="panel table-panel reveal" id="members">
                 <div class="panel-heading table-heading">
                     <div>
                         <p class="eyebrow">Directory</p>
@@ -115,6 +171,9 @@
                 </div>
 
                 {% if users %}
+                <div class="table-controls">
+                    <input id="memberSearch" type="text" placeholder="Search by name or email...">
+                </div>
                 <div class="table-wrap">
                     <table>
                         <thead>
@@ -124,7 +183,7 @@
                                 <th>Email</th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="memberRows">
                             {% for user in users %}
                             <tr>
                                 <td>{{ user.id }}</td>
@@ -138,11 +197,13 @@
                 {% else %}
                 <div class="empty-state">
                     <h3>No members yet</h3>
-                    <p>Add the first registration to populate the directory and verify the database connection.</p>
+                    <p>Start with one registration and the growth dashboard will come alive automatically.</p>
                 </div>
                 {% endif %}
             </section>
         </main>
     </div>
+
+    <script src="{{ url_for('static', filename='app.js') }}"></script>
 </body>
 </html>

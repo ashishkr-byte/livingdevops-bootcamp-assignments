@@ -14,6 +14,8 @@ jobs:
   terraform-destroy-job: # this is the job identifier
 
     runs-on: ubuntu-latest
+    environment: prod
+
     steps:
       - name: checkout code
         uses: actions/checkout@v5

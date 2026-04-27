@@ -97,6 +97,7 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     needs: build-and-push
+    environment: dev
     steps:
       - name: configure aws credentials
         uses: aws-actions/configure-aws-credentials@v5

@@ -284,14 +284,4 @@ args = parser.parse_args()
 # nargs allows to accept zero, multiple, or a variable number of arguments, which it then automatically bundles into a Python list.
 
 ```
-
-**Running the script from terminal:**
-
-```bash
-# Single region
-python3 script.py --region ap-south-1
-
-# Multiple regions (space-separated)
-python3 script.py --region ap-south-1 us-east-1 eu-west-1
-```
 ---
